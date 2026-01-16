@@ -1,0 +1,15 @@
+cat <<EOF > .gitignore
+# dependencies
+node_modules/
+
+# build output
+dist/
+
+# env files
+.env
+.env.local
+
+# OS / editor noise
+.DS_Store
+.vscode/
+EOF
