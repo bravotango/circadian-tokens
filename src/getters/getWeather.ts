@@ -1,5 +1,17 @@
+<<<<<<< Updated upstream
 import { TimeOfDay, Current, Wind, Condition, WeatherLocation } from "../types";
 import { getTimeOfDay, getWindDirection } from "./index.js";
+=======
+import {
+  TimeOfDay,
+  Current,
+  Wind,
+  WeatherLocation,
+  Condition,
+  Season,
+} from "../types";
+import { getSeason, getTimeOfDay, getWindDirection } from "./index.js";
+>>>>>>> Stashed changes
 
 /**
  * Fetches weather for a location and returns fully prepared WeatherData.
@@ -7,6 +19,7 @@ import { getTimeOfDay, getWindDirection } from "./index.js";
  */
 
 type WeatherResponse = {
+  season: Season;
   timeOfDay: TimeOfDay;
   current: Current;
   wind: Wind;
@@ -40,12 +53,16 @@ export async function getWeather(
   // API returns sunrise/sunset as Unix timestamps
   const sunrise = new Date(data.sys.sunrise * 1000);
   const sunset = new Date(data.sys.sunset * 1000);
-
   const timeOfDay: TimeOfDay = getTimeOfDay({ sunrise, sunset });
+  const season = getSeason({
+    date: new Date(data.dt * 1000),
+    latitude: data.coord.lat,
+  });
 
   const [weatherItem] = data.weather;
 
   return {
+    season,
     timeOfDay,
     current: {
       condition: weatherItem.main.toLowerCase() as Condition,
