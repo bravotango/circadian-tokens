@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-import { TimeOfDay, Current, Wind, Condition, WeatherLocation } from "../types";
-import { getTimeOfDay, getWindDirection } from "./index.js";
-=======
 import {
   TimeOfDay,
   Current,
@@ -11,7 +7,6 @@ import {
   Season,
 } from "../types";
 import { getSeason, getTimeOfDay, getWindDirection } from "./index.js";
->>>>>>> Stashed changes
 
 /**
  * Fetches weather for a location and returns fully prepared WeatherData.
@@ -27,7 +22,7 @@ type WeatherResponse = {
 
 export async function getWeather(
   location: WeatherLocation,
-  apiKey: string
+  apiKey: string,
 ): Promise<WeatherResponse> {
   if (!apiKey) throw new Error("Weather API key is required");
   let query: string;
