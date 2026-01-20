@@ -1,11 +1,9 @@
-import { Season } from "../types";
-
 type GetSeasonInput = {
   date: Date;
   latitude: number;
 };
 
-export function getSeason({ date, latitude }: GetSeasonInput): Season {
+export function getSeason({ date, latitude }: GetSeasonInput) {
   const month = date.getUTCMonth() + 1;
   const isNorthernHemisphere = latitude >= 0;
 
