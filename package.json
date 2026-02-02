@@ -27,5 +27,8 @@
   },
   "publishConfig": {
     "access": "restricted"
+  },
+  "dependencies": {
+    "@bravotango/circadian-ui": "^0.1.0"
   }
 }
