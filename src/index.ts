@@ -7,4 +7,4 @@ export { getTimeOfDay } from "./getters/getTimeOfDay";
 export { getSeason } from "./getters/getSeason";
 
 // Types
-export { Season, TimeOfDay, Condition } from "./types";
+export type { Season, TimeOfDay, Condition, Wind } from "./types";

@@ -1,4 +1,4 @@
-type windDirection = "NA" | "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW";
+import { windDirection } from "../types";
 
 export const getWindDirection = (deg: number): windDirection => {
   if (deg >= 337.5 || deg < 22.5) return "N";
