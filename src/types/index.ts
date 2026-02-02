@@ -1,5 +1,6 @@
 export type { TimeOfDay } from "./timeOfDay";
-export type { Current } from "./current";
-export type { Condition } from "./condition";
-export type { Wind } from "./wind";
+export type { Current, Condition } from "./current";
+export type { Location } from "./location";
+export type { Season } from "./season";
+export type * from "./wind";
 export type { WeatherLocation } from "./weatherLocation";
