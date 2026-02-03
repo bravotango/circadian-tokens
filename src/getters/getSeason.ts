@@ -1,9 +1,6 @@
-type GetSeasonInput = {
-  date: Date;
-  latitude: number;
-};
+import { GetSeasonProps } from "../types";
 
-export function getSeason({ date, latitude }: GetSeasonInput) {
+export const getSeason = ({ date, latitude }: GetSeasonProps) => {
   const month = date.getUTCMonth() + 1;
   const isNorthernHemisphere = latitude >= 0;
 
@@ -18,4 +15,4 @@ export function getSeason({ date, latitude }: GetSeasonInput) {
     if (month >= 9 && month <= 11) return "spring";
     return "summer";
   }
-}
+};
