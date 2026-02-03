@@ -12,3 +12,7 @@ dist/
 .DS_Store
 .vscode/
 .npmrc
+
+# Test coverage
+/coverage/
+*.lcov
