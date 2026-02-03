@@ -1,7 +1,7 @@
-import { windDirection } from "../types";
+import { WindDirection } from "../types";
 
-export const getWindDirection = (deg: number): windDirection => {
-  if (deg >= 337.5 || deg < 22.5) return "N";
+export const getWindDirection = (deg: number): WindDirection => {
+  if ((deg >= 337.5 && deg < 360) || (deg >= 0 && deg < 22.5)) return "N";
   if (deg >= 22.5 && deg < 67.5) return "NE";
   if (deg >= 67.5 && deg < 112.5) return "E";
   if (deg >= 112.5 && deg < 157.5) return "SE";

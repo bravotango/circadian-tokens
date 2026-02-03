@@ -18,6 +18,6 @@ export function getTimeOfDay({
   if (time < sunriseTime) return "night";
   if (time < sunriseTime + ONE_HOUR) return "sunrise";
   if (time < sunsetTime - ONE_HOUR) return "day";
-  if (time < sunsetTime) return "sunset";
+  if (time <= sunsetTime) return "sunset";
   return "night";
 }

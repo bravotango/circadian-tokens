@@ -1,70 +1,71 @@
 import {
   TimeOfDay,
-  Current,
-  Wind,
   WeatherLocation,
   Condition,
   Season,
-  Location,
+  WeatherResponse,
 } from "../types";
 import { getPrecipitationDegree } from "./getPrecipitationDegree";
-import { getSeason, getTimeOfDay, getWindDirection } from "./index.js";
+import { getSeason, getTimeOfDay, getWindDirection } from "./";
+
+const OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
 /**
  * Fetches weather for a location and returns fully prepared WeatherData.
  * timeOfDay is computed internally using sunrise/sunset from API.
  */
-
-type WeatherResponse = {
-  season: Season;
-  timeOfDay: TimeOfDay;
-  current: Current;
-  wind: Wind;
-  location: Location;
-};
-
 export async function getWeather(
   location: WeatherLocation,
   apiKey: string,
 ): Promise<WeatherResponse> {
-  if (!apiKey) throw new Error("Weather API k1ey is required");
-  let query: string;
-
-  switch (location.type) {
-    case "city":
-      query = `q=${encodeURIComponent(location.city)}`;
-      break;
-
-    case "coords":
-      query = `lat=${location.lat}&lon=${location.lon}`;
-      break;
+  if (!apiKey) {
+    throw new Error("Weather API key is required");
   }
 
-  const url = new URL("https://api.openweathermap.org/data/2.5/weather");
+  const query = buildQuery(location);
+  const url = new URL(OPENWEATHER_BASE_URL);
   url.search = `${query}&appid=${apiKey}&units=imperial`;
 
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`Weather API error: ${response.status}`);
+
+  if (!response.ok) {
+    throw new Error(`Weather API error: ${response.status}`);
+  }
 
   const data = await response.json();
 
-  // API returns sunrise/sunset as Unix timestamps
+  return parseWeatherResponse(data);
+}
+
+function buildQuery(location: WeatherLocation): string {
+  switch (location.type) {
+    case "city":
+      return `q=${encodeURIComponent(location.city)}`;
+    case "coords":
+      return `lat=${location.lat}&lon=${location.lon}`;
+  }
+}
+
+function parseWeatherResponse(data: any): WeatherResponse {
   const sunrise = new Date(data.sys.sunrise * 1000);
   const sunset = new Date(data.sys.sunset * 1000);
   const timeOfDay: TimeOfDay = getTimeOfDay({ sunrise, sunset });
-  const season = getSeason({
+
+  const season: Season = getSeason({
     date: new Date(data.dt * 1000),
     latitude: data.coord.lat,
   });
 
   const [weatherItem] = data.weather;
-  console.log({ data });
 
   return {
     location: {
       locationId: weatherItem.id,
       name: data.name,
-      coordinates: { lon: data.coord.lon, lat: data.coord.lat },
+      coordinates: {
+        lon: data.coord.lon,
+        lat: data.coord.lat,
+      },
       timezone: {
         offsetSeconds: data.timezone,
         offsetHours: data.timezone / 3600,
