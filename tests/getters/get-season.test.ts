@@ -1,5 +1,5 @@
 // tests/getters/getSeason.test.ts
-import { getSeason } from "../../src/getters/getSeason";
+import { getSeason } from "../../src/getters/";
 
 describe("getSeason", () => {
   describe("Northern Hemisphere", () => {

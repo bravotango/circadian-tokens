@@ -1,5 +1,5 @@
 // tests/getters/getWeather.test.ts
-import { getWeather } from "../../src/getters/getWeather";
+import { getWeather } from "../../src/getters";
 import { WeatherLocation } from "../../src/types";
 
 // Mock the fetch function

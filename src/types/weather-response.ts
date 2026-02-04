@@ -1,4 +1,4 @@
-import { Current, Location, Season, TimeOfDay, Wind } from "./";
+import { Current, Location, Season, TimeOfDay, Wind } from ".";
 
 export type WeatherResponse = {
   season: Season;

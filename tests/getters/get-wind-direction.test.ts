@@ -1,5 +1,5 @@
 // tests/getters/getWindDirection.test.ts
-import { getWindDirection } from "../../src/getters/getWindDirection";
+import { getWindDirection } from "../../src/getters";
 
 describe("getWindDirection", () => {
   describe("cardinal directions", () => {
