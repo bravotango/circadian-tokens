@@ -1,10 +1,10 @@
 // Types
-export type { CircadianTokens } from "./tokens/circadianTokens";
+export type { CircadianTokens } from "./tokens/circadian-tokens";
 
 // Getters
-export { getWeather } from "./getters/getWeather";
-export { getTimeOfDay } from "./getters/getTimeOfDay";
-export { getSeason } from "./getters/getSeason";
+export { getWeather } from "./getters/get-weather";
+export { getTimeOfDay } from "./getters/get-time-of-day";
+export { getSeason } from "./getters/get-season";
 
 // Types
 export type { Season, TimeOfDay, Condition, Wind } from "./types";

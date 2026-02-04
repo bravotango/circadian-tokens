@@ -1,4 +1,4 @@
-import type { TimeOfDay } from "../types/timeOfDay";
+import type { TimeOfDay } from "../types/time-of-day";
 
 type GetTimeOfDayProps = {
   sunrise: Date;

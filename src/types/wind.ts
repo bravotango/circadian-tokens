@@ -6,6 +6,7 @@ export type Wind = {
   precipitationDegree: number;
   gusts: number;
 };
+
 export type WindDirection =
   | "NA"
   | "N"

@@ -5,8 +5,8 @@ import {
   Season,
   WeatherResponse,
 } from "../types";
-import { getPrecipitationDegree } from "./getPrecipitationDegree";
-import { getSeason, getTimeOfDay, getWindDirection } from "./";
+import { getPrecipitationDegree } from "./get-precipitation-degree";
+import { getSeason, getTimeOfDay, getWindDirection } from ".";
 
 const OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 

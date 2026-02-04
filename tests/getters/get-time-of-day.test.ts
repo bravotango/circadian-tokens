@@ -1,5 +1,5 @@
 // tests/getters/getTimeOfDay.test.ts
-import { getTimeOfDay } from "../../src/getters/getTimeOfDay";
+import { getTimeOfDay } from "../../src/getters";
 
 describe("getTimeOfDay", () => {
   beforeEach(() => {

@@ -1,5 +1,5 @@
 // tests/getters/getPrecipitationDegree.test.ts
-import { getPrecipitationDegree } from "../../src/getters/getPrecipitationDegree";
+import { getPrecipitationDegree } from "../../src/getters/";
 
 describe("getPrecipitationDegree", () => {
   describe("wind from 0-179 degrees (first half)", () => {
