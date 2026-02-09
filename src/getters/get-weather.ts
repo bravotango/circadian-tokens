@@ -57,6 +57,7 @@ function parseWeatherResponse(data: any): WeatherResponse {
   });
 
   const [weatherItem] = data.weather;
+  const localTimestamp = new Date(data.dt * 1000);
 
   return {
     location: {
@@ -69,6 +70,12 @@ function parseWeatherResponse(data: any): WeatherResponse {
       timezone: {
         offsetSeconds: data.timezone,
         offsetHours: data.timezone / 3600,
+        observedAtLocal: localTimestamp.toLocaleString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+          timeZone: "UTC", // treat this date as UTC after applying offset
+        }),
       },
     },
     season,

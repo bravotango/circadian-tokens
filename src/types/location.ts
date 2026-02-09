@@ -8,5 +8,6 @@ export type Location = {
   timezone: {
     offsetSeconds: number;
     offsetHours: number;
+    observedAtLocal: string;
   };
 };
