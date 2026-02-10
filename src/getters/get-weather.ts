@@ -50,6 +50,24 @@ function parseWeatherResponse(data: any): WeatherResponse {
   const sunrise = new Date(data.sys.sunrise * 1000);
   const sunset = new Date(data.sys.sunset * 1000);
   const timeOfDay: TimeOfDay = getTimeOfDay({ sunrise, sunset });
+  const utcSeconds = data.dt;
+  const offsetSeconds = data.timezone;
+
+  // compute the local epoch seconds
+  const localSeconds = utcSeconds + offsetSeconds;
+
+  // create a Date object from milliseconds
+  const localDate = new Date(localSeconds * 1000);
+  const observedAtLocal = localDate.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "UTC",
+  });
+
+  console.log(observedAtLocal);
 
   const season: Season = getSeason({
     date: new Date(data.dt * 1000),
@@ -57,7 +75,6 @@ function parseWeatherResponse(data: any): WeatherResponse {
   });
 
   const [weatherItem] = data.weather;
-  const localTimestamp = new Date(data.dt * 1000);
 
   return {
     location: {
@@ -70,12 +87,8 @@ function parseWeatherResponse(data: any): WeatherResponse {
       timezone: {
         offsetSeconds: data.timezone,
         offsetHours: data.timezone / 3600,
-        observedAtLocal: localTimestamp.toLocaleString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-          timeZone: "UTC", // treat this date as UTC after applying offset
-        }),
+        observedAtLocal: observedAtLocal,
+        utcSeconds: data.dt,
       },
     },
     season,

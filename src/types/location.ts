@@ -9,5 +9,6 @@ export type Location = {
     offsetSeconds: number;
     offsetHours: number;
     observedAtLocal: string;
+    utcSeconds: number;
   };
 };
