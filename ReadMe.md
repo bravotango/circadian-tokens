@@ -86,7 +86,7 @@ This material licensed under the "The MIT License". All rights not explicitly gr
 
 Author's gitHub profiles:
 
-[https://github.com/@bravotango](https://github.com/@bravotango)<br/>
+[https://github.com/bravotango](https://github.com/bravotango)<br/>
 
 ## Tests
 
@@ -120,7 +120,7 @@ Ran all test suites.
 ## Questions
 
 Repository owner:
-[https://github.com/@bravotango](https://github.com/@bravotango)
+[https://github.com/bravotango](https://github.com/bravotango)
 
 Repository email:
 <a href="mailto:brian.tracy@btgraphix.com">brian.tracy@btgraphix.com</a>
