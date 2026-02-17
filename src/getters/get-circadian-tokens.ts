@@ -5,8 +5,12 @@ import {
   Season,
   WeatherResponse,
 } from "../types";
-import { getPrecipitationDegree } from "./get-precipitation-degree";
-import { getSeason, getTimeOfDay, getWindDirection } from ".";
+import {
+  getPrecipitationDegree,
+  getSeason,
+  getTimeOfDay,
+  getWindDirection,
+} from ".";
 
 const OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
@@ -14,10 +18,10 @@ const OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
  * Fetches weather for a location and returns fully prepared WeatherData.
  * timeOfDay is computed internally using sunrise/sunset from API.
  */
-export async function getWeather(
+export const getCircadianTokens = async (
   location: WeatherLocation,
   apiKey: string,
-): Promise<WeatherResponse> {
+): Promise<WeatherResponse> => {
   if (!apiKey) {
     throw new Error("Weather API key is required");
   }
@@ -35,7 +39,7 @@ export async function getWeather(
   const data = await response.json();
 
   return parseWeatherResponse(data);
-}
+};
 
 function buildQuery(location: WeatherLocation): string {
   switch (location.type) {
@@ -66,8 +70,6 @@ function parseWeatherResponse(data: any): WeatherResponse {
     hour12: true,
     timeZone: "UTC",
   });
-
-  console.log(observedAtLocal);
 
   const season: Season = getSeason({
     date: new Date(data.dt * 1000),
