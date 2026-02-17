@@ -1,11 +1,11 @@
-// tests/getters/getWeather.test.ts
-import { getWeather } from "../../src/getters";
+// tests/getters/getCircadianTokens.test.ts
+import { getCircadianTokens } from "../../src/getters";
 import { WeatherLocation } from "../../src/types";
 
 // Mock the fetch function
 global.fetch = jest.fn();
 
-describe("getWeather", () => {
+describe("getCircadianTokens", () => {
   const mockApiKey = "test-api-key-123";
 
   const mockApiResponse = {
@@ -58,7 +58,7 @@ describe("getWeather", () => {
         city: "Seattle",
       };
 
-      await expect(getWeather(location, "")).rejects.toThrow(
+      await expect(getCircadianTokens(location, "")).rejects.toThrow(
         "Weather API key is required",
       );
     });
@@ -71,7 +71,7 @@ describe("getWeather", () => {
         city: "Seattle",
       };
 
-      const result = await getWeather(location, mockApiKey);
+      const result = await getCircadianTokens(location, mockApiKey);
 
       const calledUrl = (fetch as jest.Mock).mock.calls[0][0].toString();
       expect(calledUrl).toContain("q=Seattle");
@@ -91,7 +91,7 @@ describe("getWeather", () => {
         city: "New York",
       };
 
-      await getWeather(location, mockApiKey);
+      await getCircadianTokens(location, mockApiKey);
 
       const calledUrl = (fetch as jest.Mock).mock.calls[0][0].toString();
       expect(calledUrl).toContain("q=New%20York");
@@ -106,7 +106,7 @@ describe("getWeather", () => {
         lon: -122.3321,
       };
 
-      const result = await getWeather(location, mockApiKey);
+      const result = await getCircadianTokens(location, mockApiKey);
 
       const calledUrl = (fetch as jest.Mock).mock.calls[0][0].toString();
       expect(calledUrl).toContain("lat=47.6062");
@@ -126,7 +126,7 @@ describe("getWeather", () => {
         city: "Seattle",
       };
 
-      const result = await getWeather(location, mockApiKey);
+      const result = await getCircadianTokens(location, mockApiKey);
 
       // Check location data
       expect(result.location.locationId).toBe(800);
@@ -173,7 +173,7 @@ describe("getWeather", () => {
         city: "Seattle",
       };
 
-      const result = await getWeather(location, mockApiKey);
+      const result = await getCircadianTokens(location, mockApiKey);
 
       expect(result.wind.gusts).toBe(8.5);
     });
@@ -191,7 +191,7 @@ describe("getWeather", () => {
         city: "InvalidCity",
       };
 
-      await expect(getWeather(location, mockApiKey)).rejects.toThrow(
+      await expect(getCircadianTokens(location, mockApiKey)).rejects.toThrow(
         "Weather API error: 404",
       );
     });
@@ -207,7 +207,7 @@ describe("getWeather", () => {
         city: "Seattle",
       };
 
-      await expect(getWeather(location, "invalid-key")).rejects.toThrow(
+      await expect(getCircadianTokens(location, "invalid-key")).rejects.toThrow(
         "Weather API error: 401",
       );
     });

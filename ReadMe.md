@@ -35,11 +35,11 @@ Instead of hard coded themes, circadian-tokens enables interfaces to adapt to th
 
 ### api/weather/routes.ts
 
-Here is a Next.js example route that populates the tokens with @bravotango/circadian-tokens getWeather().
+Here is a Next.js example route that populates the tokens with @bravotango/circadian-tokens getCircadianTokens().
 
 ```
 import { NextRequest, NextResponse } from "next/server";
-import { getWeather } from "@bravotango/circadian-tokens";
+import { getCircadianTokens } from "@bravotango/circadian-tokens";
 
 export async function GET(req: NextRequest) {
 try {
@@ -48,12 +48,12 @@ const { city, lon, lat } = Object.fromEntries(req.nextUrl.searchParams);
     let tokens;
 
     if (city) {
-      tokens = await getWeather(
+      tokens = await getCircadianTokens(
         { type: "city", city },
         process.env.WEATHER_API_KEY!,
       );
     } else if (lon && lat) {
-      tokens = await getWeather(
+      tokens = await getCircadianTokens(
         { type: "coords", lon: Number(lon), lat: Number(lat) },
         process.env.WEATHER_API_KEY!,
       );
@@ -104,10 +104,10 @@ Author's gitHub profiles:
 | File                        | % Stmts | % Branch | % Funcs | % Lines |
 | --------------------------- | ------- | -------- | ------- | ------- |
 | All files                   | 100     | 100      | 100     | 100     |
+| get-circadian-tokens.ts     | 100     | 100      | 100     | 100     |
 | get-precipitation-degree.ts | 100     | 100      | 100     | 100     |
 | get-season.ts               | 100     | 100      | 100     | 100     |
 | get-time-of-day.ts          | 100     | 100      | 100     | 100     |
-| get-weather.ts              | 100     | 100      | 100     | 100     |
 | get-wind-direction.ts       | 100     | 100      | 100     | 100     |
 | index.ts                    | 100     | 100      | 100     | 100     |
 
