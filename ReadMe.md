@@ -78,9 +78,9 @@ const { city, lon, lat } = Object.fromEntries(req.nextUrl.searchParams);
 
 ## License
 
-[![License: Apache 2.0 License](https://img.shields.io/badge/s-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License: MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This material licensed under the "Apache 2.0 License". All rights not explicitly granted in the "Apache 2.0 License" are reserved.
+This material licensed under the "The MIT License". All rights not explicitly granted in the "The MIT License" are reserved.
 
 ## Contributing
 
