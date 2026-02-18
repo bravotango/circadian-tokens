@@ -1,126 +1,138 @@
 # circadian-tokens
 
-## Description
+Context-aware design tokens driven by real-world weather data.
 
-@bravotango/circadian-tokens is a context driven design token engine that converts real-time weather data into structured UI variables.
+`@bravotango/circadian-tokens` transforms live weather data into structured UI variables — enabling interfaces that respond to season, time of day, wind direction, and environmental conditions.
 
-## Table of Contents
+---
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [License](#license)
-- [Contributing](#contributing)
-- [Tests](#tests)
-- [Questions](#questions)
+## Features
+
+- 🌤 Converts live weather data into structured token objects
+- 🌅 Automatic season and time-of-day computation
+- 💨 Wind direction and precipitation modeling
+- 🎨 Designed for adaptive and ambient UI systems
+- ♻️ Framework agnostic (React-ready)
+- ✅ Fully unit tested
+
+---
 
 ## Installation
 
-`npm install @bravotango/circadian-tokens`
+```bash
+npm install @bravotango/circadian-tokens
+```
 
-### Requirements
+---
 
-circadian-tokens relies on live weather data from OpenWeather.
+## Requirements
 
-You must obtain your own API key from:
+This package relies on live weather data from OpenWeather.
+
+Create an account and generate an API key:
 
 https://openweathermap.org/
 
-After creating an account, generate an API key from your dashboard and provide it to your application via environment variables.
+Then expose your key via environment variables:
 
-`WEATHER_API_KEY="your-openweathermap.org-api-key"`
+```bash
+OPENWEATHER_API_KEY="your-api-key"
+```
+
+---
 
 ## Usage
 
-Instead of hard coded themes, circadian-tokens enables interfaces to adapt to the physical world, creating ambient, location aware UI experiences.
-
-### api/weather/routes.ts
-
-Here is a Next.js example route that populates the tokens with @bravotango/circadian-tokens getCircadianTokens().
-
-```
-import { NextRequest, NextResponse } from "next/server";
+```ts
 import { getCircadianTokens } from "@bravotango/circadian-tokens";
 
-export async function GET(req: NextRequest) {
-try {
-const { city, lon, lat } = Object.fromEntries(req.nextUrl.searchParams);
+const tokens = await getCircadianTokens(
+  { type: "coords", lon: -122.2054, lat: 47.7623 },
+  process.env.OPENWEATHER_API_KEY!,
+);
 
-    let tokens;
+console.log(tokens.wind.directionFrom);
+console.log(tokens.season);
+console.log(tokens.timeOfDay);
+```
 
-    if (city) {
-      tokens = await getCircadianTokens(
-        { type: "city", city },
-        process.env.WEATHER_API_KEY!,
-      );
-    } else if (lon && lat) {
-      tokens = await getCircadianTokens(
-        { type: "coords", lon: Number(lon), lat: Number(lat) },
-        process.env.WEATHER_API_KEY!,
-      );
-    } else {
-      return NextResponse.json(
-        { error: "Missing parameters" },
-        { status: 400 },
-      );
+---
+
+## Example Response Shape
+
+```ts
+{
+    "location": {
+        "locationId": 803,
+        "name": "Seattle",
+        "coordinates": {
+            "lon": -122.3321,
+            "lat": 47.6062
+        },
+        "timezone": {
+            "offsetSeconds": -28800,
+            "offsetHours": -8,
+            "observedAtLocal": "Feb 18, 10:14 AM",
+            "utcSeconds": 1771438495
+        }
+    },
+    "season": "winter",
+    "timeOfDay": "day",
+    "current": {
+        "condition": "clouds",
+        "description": "broken clouds",
+        "id": 803,
+        "icon": "04d",
+        "temperature": 38.68
+    },
+    "wind": {
+        "speed": 8.05,
+        "directionFrom": "S",
+        "degrees": 200,
+        "precipitationDegree": -33,
+        "gusts": 8.05
     }
-
-    return NextResponse.json(tokens);
-
-  } catch (err) {
-    console.error("Failed to fetch weather:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch weather" },
-      { status: 500 },
-    );
-  }
 }
 ```
+
+---
+
+## API
+
+### getCircadianTokens(location, apiKey)
+
+Fetches weather data and returns a fully normalized `WeatherResponse` object.
+
+### Parameters
+
+| Name     | Type            | Description                                                                        |
+| -------- | --------------- | ---------------------------------------------------------------------------------- |
+| location | WeatherLocation | `{ type: "city", city: string }` or `{ type: "coords", lat: number, lon: number }` |
+| apiKey   | string          | Your OpenWeather API key                                                           |
+
+---
+
+## Testing
+
+Run the test suite:
+
+```
+pnpm run test
+```
+
+All core token generators are fully unit tested.
+
+---
 
 ## License
 
 [![License: MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This material licensed under the "The MIT License". All rights not explicitly granted in the "The MIT License" are reserved.
+This material licensed under the "The MIT License".
 
-## Contributing
+---
 
-Author's gitHub profiles:
+## Author
 
-[https://github.com/bravotango](https://github.com/bravotango)<br/>
-
-## Tests
-
-### Jest
-
-```
-  "devDependencies": {
-    "jest": "^30.2.0",
-    "ts-jest": "^29.4.6"
-  }
-```
-
-`pnpm run test`
-
-| File                        | % Stmts | % Branch | % Funcs | % Lines |
-| --------------------------- | ------- | -------- | ------- | ------- |
-| All files                   | 100     | 100      | 100     | 100     |
-| get-circadian-tokens.ts     | 100     | 100      | 100     | 100     |
-| get-precipitation-degree.ts | 100     | 100      | 100     | 100     |
-| get-season.ts               | 100     | 100      | 100     | 100     |
-| get-time-of-day.ts          | 100     | 100      | 100     | 100     |
-| get-wind-direction.ts       | 100     | 100      | 100     | 100     |
-| index.ts                    | 100     | 100      | 100     | 100     |
-
-Test Suites: 5 passed, 5 total<br/>
-Tests: 45 passed, 45 total<br/>
-Snapshots: 0 total<br/>
-Time: 2.28 s<br/>
-Ran all test suites.
-
-## Questions
-
-Repository owner:
-[https://github.com/bravotango](https://github.com/bravotango)
-
-Repository email:
-<a href="mailto:brian.tracy@btgraphix.com">brian.tracy@btgraphix.com</a>
+Brian Tracy  
+https://github.com/bravotango
