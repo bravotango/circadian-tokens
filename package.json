@@ -1,6 +1,6 @@
 {
   "name": "@bravotango/circadian-tokens",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,9 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "remove": "rm -rf node_modules pnpm-lock.yaml dist",
+    "publish": "pnpm publish --access public"
   },
   "exports": {
     ".": {
