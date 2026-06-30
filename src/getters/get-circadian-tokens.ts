@@ -13,6 +13,8 @@ import {
 } from ".";
 
 const OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
+const OPENWEATHER_BASE_URL_REVERSE_LOOKUP =
+  "https://api.openweathermap.org/geo/1.0/reverse";
 
 /**
  * Fetches weather for a location and returns fully prepared WeatherData.
@@ -37,8 +39,20 @@ export const getCircadianTokens = async (
   }
 
   const data = await response.json();
+  let city = {};
+  if (location.type === "coords") {
+    const urlReverseLookup = new URL(OPENWEATHER_BASE_URL_REVERSE_LOOKUP);
+    urlReverseLookup.search = `lat=${location.lat}&lon=${location.lon}&limit=1&appid=${apiKey}`;
+    const cityResponse = await fetch(urlReverseLookup);
+    if (!cityResponse.ok) {
+      throw new Error(`Reverse lookup error: ${cityResponse.status}`);
+    }
+    const cityData = await cityResponse.json();
+    const raw = cityData[0] ?? {}; // reverse lookup returns an array
+    city = { country: raw.country, city: raw.name, state: raw.state };
+  }
 
-  return parseWeatherResponse(data);
+  return parseWeatherResponse(data, city);
 };
 
 function buildQuery(location: WeatherLocation): string {
@@ -50,7 +64,7 @@ function buildQuery(location: WeatherLocation): string {
   }
 }
 
-function parseWeatherResponse(data: any): WeatherResponse {
+function parseWeatherResponse(data: any, city: any): WeatherResponse {
   const sunrise = new Date(data.sys.sunrise * 1000);
   const sunset = new Date(data.sys.sunset * 1000);
   const timeOfDay: TimeOfDay = getTimeOfDay({ sunrise, sunset });
@@ -85,6 +99,7 @@ function parseWeatherResponse(data: any): WeatherResponse {
       coordinates: {
         lon: data.coord.lon,
         lat: data.coord.lat,
+        pinPoint: city,
       },
       timezone: {
         offsetSeconds: data.timezone,
