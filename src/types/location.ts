@@ -4,7 +4,7 @@ export type Location = {
   coordinates: {
     lat: number;
     lon: number;
-    pinPoint?: { country: string; name: string; state: string };
+    pinPoint?: { country: string; city: string; state: string };
   };
   timezone: {
     offsetSeconds: number;
