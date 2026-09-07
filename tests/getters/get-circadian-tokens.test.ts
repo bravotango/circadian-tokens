@@ -9,7 +9,10 @@ describe("getCircadianTokens", () => {
   const mockApiKey = "test-api-key-123";
 
   const mockApiResponse = {
-    coord: { lon: -122.3321, lat: 47.6062 },
+    coord: {
+      lon: -122.3321,
+      lat: 47.6062,
+    },
     weather: [
       {
         id: 800,
@@ -34,6 +37,16 @@ describe("getCircadianTokens", () => {
     timezone: -25200, // UTC-7 (PDT)
     name: "Seattle",
   };
+
+  const mockReverseLookupResponse = [
+    {
+      name: "Seattle",
+      lat: 47.6062,
+      lon: -122.3321,
+      country: "US",
+      state: "Washington",
+    },
+  ];
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -82,6 +95,7 @@ describe("getCircadianTokens", () => {
       expect(result.location.coordinates).toEqual({
         lat: 47.6062,
         lon: -122.3321,
+        pinPoint: {},
       });
     });
 
@@ -100,6 +114,16 @@ describe("getCircadianTokens", () => {
 
   describe("coordinate-based location", () => {
     it("fetches weather for coordinates and returns parsed response", async () => {
+      (fetch as jest.Mock)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => mockApiResponse,
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: async () => mockReverseLookupResponse,
+        });
+
       const location: WeatherLocation = {
         type: "coords",
         lat: 47.6062,
@@ -115,6 +139,11 @@ describe("getCircadianTokens", () => {
       expect(result.location.coordinates).toEqual({
         lat: 47.6062,
         lon: -122.3321,
+        pinPoint: {
+          country: "US",
+          city: "Seattle",
+          state: "Washington",
+        },
       });
     });
   });
